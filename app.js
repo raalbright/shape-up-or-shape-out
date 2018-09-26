@@ -35,6 +35,16 @@ class Rectangle extends Shape {
         super('rectangle');
         this.height = height;
         this.width = width;
+
+        this.element = document.createElement('div');
+        this.element.classList.add('rectangle');
+        this.element.style.width = `${width}px`;
+        this.element.style.height = `${height}px`;
+        this.element.style.position = 'absolute';
+        this.element.style.top = `${Math.abs(Math.floor(Math.random() * 600) - height)}px`;
+        this.element.style.right = `${Math.abs(Math.floor(Math.random() * canvas.offsetWidth) - width)}px`;
+
+        canvas.appendChild(this.element);
     }
 }
 
@@ -57,6 +67,7 @@ class Square extends Shape {
 
 const squareForm = document.querySelector('#add-square');
 const circleForm = document.querySelector('#add-circle');
+const rectangleForm = document.querySelector('#add-rectangle');
 
 squareForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -71,5 +82,14 @@ circleForm.addEventListener('submit', (e) => {
     const form = e.target;
     const radius = parseInt(form.elements["radius"].value);
     new Circle(radius);
+    // form.reset();
+});
+
+rectangleForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const width = parseInt(form.elements["width"].value);
+    const height = parseInt(form.elements["height"].value);
+    new Rectangle(width, height);
     // form.reset();
 });

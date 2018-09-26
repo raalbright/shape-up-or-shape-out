@@ -34,6 +34,14 @@ form > h5 {
     background-color: red;
 }
 
+.rectangle {
+    background-color: green;
+}
+
+.triangle {
+    background-color: yellow;
+}
+
 .circle {
     background-color: purple;
     border-radius: 50%;
