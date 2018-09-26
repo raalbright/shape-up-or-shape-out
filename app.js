@@ -10,6 +10,16 @@ class Circle extends Shape {
     constructor(radius) {
         super('circle');
         this.radius = radius;
+
+        this.element = document.createElement('div');
+        this.element.classList.add('circle');
+        this.element.style.width = `${radius * 2}px`;
+        this.element.style.height = `${radius * 2}px`;
+        this.element.style.position = 'absolute';
+        this.element.style.top = `${Math.abs(Math.floor(Math.random() * 600))}px`;
+        this.element.style.right = `${Math.abs(Math.floor(Math.random() * canvas.offsetWidth))}px`;
+
+        canvas.appendChild(this.element);
     }
 }
 
@@ -46,11 +56,20 @@ class Square extends Shape {
 }
 
 const squareForm = document.querySelector('#add-square');
+const circleForm = document.querySelector('#add-circle');
 
 squareForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const form = e.target;
     const sideLength = parseInt(form.elements["side-length"].value);
     new Square(sideLength);
+    // form.reset();
+});
+
+circleForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const radius = parseInt(form.elements["radius"].value);
+    new Circle(radius);
     // form.reset();
 });

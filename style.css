@@ -31,5 +31,10 @@ form > h5 {
 }
 
 .square {
-    background: red;
+    background-color: red;
+}
+
+.circle {
+    background-color: purple;
+    border-radius: 50%;
 }
