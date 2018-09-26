@@ -1,0 +1,29 @@
+body {
+    margin: 0
+}
+
+main {
+    display: flex;
+}
+
+.insert-shapes {
+    display: flex;
+    margin-bottom: 1em;
+}
+
+form > h5 {
+    margin: 0;
+}
+
+#side-panel {
+    width: 300px;
+    height: 600px;
+}
+
+#canvas {
+    width: 600px;
+    height: 600px;
+    background-color: #85b1e3;
+    flex-basis: auto;
+    flex-grow: 1;
+}
