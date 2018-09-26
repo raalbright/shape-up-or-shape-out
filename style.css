@@ -39,7 +39,7 @@ form > h5 {
 }
 
 .triangle {
-    background-color: yellow;
+    border-color: yellow; 
 }
 
 .circle {
