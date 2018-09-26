@@ -19,6 +19,11 @@ class Circle extends Shape {
         this.element.style.top = `${Math.abs(Math.floor(Math.random() * 600))}px`;
         this.element.style.right = `${Math.abs(Math.floor(Math.random() * canvas.offsetWidth))}px`;
 
+        this.element.addEventListener('dblclick', () => {
+            canvas.removeChild(this.element);
+        });
+
+
         canvas.appendChild(this.element);
     }
 }
@@ -35,6 +40,10 @@ class Triangle extends Shape {
         this.element.style.position = 'absolute';
         this.element.style.top = `${Math.abs(Math.floor(Math.random() * 600) - height)}px`;
         this.element.style.right = `${Math.abs(Math.floor(Math.random() * canvas.offsetWidth) - height)}px`;
+
+        this.element.addEventListener('dblclick', () => {
+            canvas.removeChild(this.element);
+        });
 
         canvas.appendChild(this.element);
     }
@@ -54,6 +63,10 @@ class Rectangle extends Shape {
         this.element.style.top = `${Math.abs(Math.floor(Math.random() * 600) - height)}px`;
         this.element.style.right = `${Math.abs(Math.floor(Math.random() * canvas.offsetWidth) - width)}px`;
 
+        this.element.addEventListener('dblclick', () => {
+            canvas.removeChild(this.element);
+        });
+
         canvas.appendChild(this.element);
     }
 }
@@ -70,6 +83,10 @@ class Square extends Shape {
         this.element.style.position = 'absolute';
         this.element.style.top = `${Math.abs(Math.floor(Math.random() * 600) - sideLength)}px`;
         this.element.style.right = `${Math.abs(Math.floor(Math.random() * canvas.offsetWidth) - sideLength)}px`;
+
+        this.element.addEventListener('dblclick', () => {
+            canvas.removeChild(this.element);
+        });
 
         canvas.appendChild(this.element);
     }
