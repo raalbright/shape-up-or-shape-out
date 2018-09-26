@@ -26,4 +26,10 @@ form > h5 {
     background-color: #85b1e3;
     flex-basis: auto;
     flex-grow: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.square {
+    background: red;
 }
