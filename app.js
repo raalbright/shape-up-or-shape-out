@@ -1,131 +1,153 @@
-const canvas = document.querySelector('#canvas');
+const canvas = document.querySelector( '#canvas' );
+const sidePanel = ( () => {
+    const sidePanel = document.querySelector( '#side-panel' );
+
+    return {}
+} )();
 
 class Shape {
-    constructor(shapeName) {
+    constructor ( { shapeName = 'shape', width = 0, height = 0 } ) {
+        this.shapeName = shapeName
+        this.width = width;
+        this.height = height;
 
+        this.element = document.createElement( 'div' );
+        this.element.classList.add( 'shape', shapeName );
+
+        this.element.style.width = `${ width }px`;
+        this.element.style.height = `${ height }px`;
+
+        this.element.addEventListener( 'click', () => {
+            const info = this.describe();
+            console.log( info );
+        } );
+
+        this.element.addEventListener( 'dblclick', () => canvas.removeChild( this.element ) );
+
+        canvas.appendChild( this.element );
+    }
+
+    describe () { }
+
+    area () {
+        return this.width * this.height;
     }
 }
 
 class Circle extends Shape {
-    constructor(radius) {
-        super('circle');
+    constructor ( radius ) {
+        super( {
+            shapeName: 'circle',
+            width: radius * 2,
+            height: radius * 2
+        } );
         this.radius = radius;
 
-        this.element = document.createElement('div');
-        this.element.classList.add('circle');
-        this.element.style.width = `${radius * 2}px`;
-        this.element.style.height = `${radius * 2}px`;
-        this.element.style.position = 'absolute';
-        this.element.style.top = `${Math.abs(Math.floor(Math.random() * 600))}px`;
-        this.element.style.right = `${Math.abs(Math.floor(Math.random() * canvas.offsetWidth))}px`;
+        this.element.style.top = `${ Math.abs( Math.floor( Math.random() * ( canvas.offsetHeight - this.height ) ) ) }px`;
+        this.element.style.right = `${ Math.abs( Math.floor( Math.random() * ( canvas.offsetWidth - this.width ) ) ) }px`;
+    }
 
-        this.element.addEventListener('dblclick', () => {
-            canvas.removeChild(this.element);
-        });
+    area () {
+        return Math.PI * ( this.radius ** 2 );
+    }
 
-
-        canvas.appendChild(this.element);
+    circumference () {
+        return 2 * ( Math.PI * this.radius );
     }
 }
 
 class Triangle extends Shape {
-    constructor(height) {
-        super('triangle');
-        this.height = height;
+    constructor ( height ) {
+        super( {
+            shapeName: 'triangle',
+            height
+        } );
 
-        this.element = document.createElement('div');
-        this.element.classList.add('triangle');
-        this.element.style.borderTop = `${height}px solid yellow`;
-        this.element.style.borderRight = `${height}px solid transparent`;
-        this.element.style.position = 'absolute';
-        this.element.style.top = `${Math.abs(Math.floor(Math.random() * 600) - height)}px`;
-        this.element.style.right = `${Math.abs(Math.floor(Math.random() * canvas.offsetWidth) - height)}px`;
+        this.element.style.borderTop = `${ height }px solid yellow`;
+        this.element.style.borderRight = `${ height }px solid transparent`;
 
-        this.element.addEventListener('dblclick', () => {
-            canvas.removeChild(this.element);
-        });
+        this.element.style.top = `${ Math.abs( Math.floor( Math.random() * ( canvas.offsetHeight - this.height ) ) ) }px`;
+        this.element.style.right = `${ Math.abs( Math.floor( Math.random() * ( canvas.offsetWidth - this.height ) ) ) }px`;
+    }
 
-        canvas.appendChild(this.element);
+    area () {
+        return 0.5 * this.height * this.height;
+    }
+
+
+    perimeter () {
+        return 2 * this.height + ( Math.sqrt( 2 ) ) * this.height;
     }
 }
 
 class Rectangle extends Shape {
-    constructor(width, height) {
-        super('rectangle');
-        this.height = height;
-        this.width = width;
+    constructor ( width, height ) {
+        super( {
+            shapeName: 'rectangle',
+            width,
+            height
+        } );
 
-        this.element = document.createElement('div');
-        this.element.classList.add('rectangle');
-        this.element.style.width = `${width}px`;
-        this.element.style.height = `${height}px`;
-        this.element.style.position = 'absolute';
-        this.element.style.top = `${Math.abs(Math.floor(Math.random() * 600) - height)}px`;
-        this.element.style.right = `${Math.abs(Math.floor(Math.random() * canvas.offsetWidth) - width)}px`;
+        this.element.style.top = `${ Math.abs( Math.floor( Math.random() * ( canvas.offsetHeight - this.height ) ) ) }px`;
+        this.element.style.right = `${ Math.abs( Math.floor( Math.random() * ( canvas.offsetWidth - this.width ) ) ) }px`;
+    }
 
-        this.element.addEventListener('dblclick', () => {
-            canvas.removeChild(this.element);
-        });
-
-        canvas.appendChild(this.element);
+    perimeter () {
+        return 2 * ( this.width + this.height );
     }
 }
 
 class Square extends Shape {
-    constructor(sideLength) {
-        super('square');
-        this.sideLength = sideLength;
+    constructor ( sideLength ) {
+        super( {
+            shapeName: 'square',
+            width: sideLength,
+            height: sideLength
+        } );
 
-        this.element = document.createElement('div');
-        this.element.classList.add('square');
-        this.element.style.width = `${sideLength}px`;
-        this.element.style.height = `${sideLength}px`;
-        this.element.style.position = 'absolute';
-        this.element.style.top = `${Math.abs(Math.floor(Math.random() * 600) - sideLength)}px`;
-        this.element.style.right = `${Math.abs(Math.floor(Math.random() * canvas.offsetWidth) - sideLength)}px`;
+        this.element.style.top = `${ Math.abs( Math.floor( Math.random() * ( canvas.offsetHeight - this.height ) ) ) }px`;
+        this.element.style.right = `${ Math.abs( Math.floor( Math.random() * ( canvas.offsetWidth - this.width ) ) ) }px`;
+    }
 
-        this.element.addEventListener('dblclick', () => {
-            canvas.removeChild(this.element);
-        });
-
-        canvas.appendChild(this.element);
+    perimeter () {
+        return 4 * this.width;
     }
 }
 
-const squareForm = document.querySelector('#add-square');
-const circleForm = document.querySelector('#add-circle');
-const rectangleForm = document.querySelector('#add-rectangle');
-const triangleForm = document.querySelector('#add-triangle');
+const squareForm = document.querySelector( '#add-square' );
+const circleForm = document.querySelector( '#add-circle' );
+const rectangleForm = document.querySelector( '#add-rectangle' );
+const triangleForm = document.querySelector( '#add-triangle' );
 
-squareForm.addEventListener('submit', (e) => {
+squareForm.addEventListener( 'submit', ( e ) => {
     e.preventDefault();
     const form = e.target;
-    const sideLength = parseInt(form.elements["side-length"].value);
-    new Square(sideLength);
-    // form.reset();
-});
+    const sideLength = parseInt( form.elements[ "side-length" ].value );
+    new Square( sideLength );
+    form.reset();
+} );
 
-circleForm.addEventListener('submit', (e) => {
+circleForm.addEventListener( 'submit', ( e ) => {
     e.preventDefault();
     const form = e.target;
-    const radius = parseInt(form.elements["radius"].value);
-    new Circle(radius);
-    // form.reset();
-});
+    const radius = parseInt( form.elements[ "radius" ].value );
+    new Circle( radius );
+    form.reset();
+} );
 
-rectangleForm.addEventListener('submit', (e) => {
+rectangleForm.addEventListener( 'submit', ( e ) => {
     e.preventDefault();
     const form = e.target;
-    const width = parseInt(form.elements["width"].value);
-    const height = parseInt(form.elements["height"].value);
-    new Rectangle(width, height);
-    // form.reset();
-});
+    const width = parseInt( form.elements[ "width" ].value );
+    const height = parseInt( form.elements[ "height" ].value );
+    new Rectangle( width, height );
+    form.reset();
+} );
 
-triangleForm.addEventListener('submit', (e) => {
+triangleForm.addEventListener( 'submit', ( e ) => {
     e.preventDefault();
     const form = e.target;
-    const height = parseInt(form.elements["height"].value);
-    new Triangle(height);
-    // form.reset();
-});
+    const height = parseInt( form.elements[ "height" ].value );
+    new Triangle( height );
+    form.reset();
+} );
