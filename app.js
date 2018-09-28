@@ -1,25 +1,36 @@
 const canvas = document.querySelector( '#canvas' );
+
+const capitalize = ( str ) => {
+    return `${ str.substring( 0, 1 ).toUpperCase() }${ str.substring( 1 ) }`
+}
+
 const sidePanel = ( () => {
     const sidePanel = document.querySelector( '#side-panel' );
 
-    return {}
+    const changeInfo = ( d ) => {
+        const info = Object.entries( d ).map( ( [ key, value ] ) => `${ capitalize( key ) }: ${ value }` ).join( '\n' );
+        sidePanel.innerText = info;
+    }
+    return {
+        changeInfo
+    }
 } )();
 
 class Shape {
-    constructor ( { shapeName = 'shape', width = 0, height = 0 } ) {
-        this.shapeName = shapeName
+    constructor ( { shape = 'shape', width = 0, height = 0 } ) {
+        this.shape = capitalize( shape );
         this.width = width;
         this.height = height;
 
         this.element = document.createElement( 'div' );
-        this.element.classList.add( 'shape', shapeName );
+        this.element.classList.add( 'shape', shape );
 
         this.element.style.width = `${ width }px`;
         this.element.style.height = `${ height }px`;
 
         this.element.addEventListener( 'click', () => {
             const info = this.describe();
-            console.log( info );
+            sidePanel.changeInfo( info );
         } );
 
         this.element.addEventListener( 'dblclick', () => canvas.removeChild( this.element ) );
@@ -29,15 +40,13 @@ class Shape {
 
     describe () { }
 
-    area () {
-        return this.width * this.height;
-    }
+    area () { }
 }
 
 class Circle extends Shape {
     constructor ( radius ) {
         super( {
-            shapeName: 'circle',
+            shape: 'circle',
             width: radius * 2,
             height: radius * 2
         } );
@@ -54,12 +63,22 @@ class Circle extends Shape {
     circumference () {
         return 2 * ( Math.PI * this.radius );
     }
+
+    describe () {
+        return {
+            shape: this.shape,
+            diameter: this.width,
+            radius: this.radius,
+            area: this.area(),
+            circumference: this.circumference()
+        }
+    }
 }
 
 class Triangle extends Shape {
     constructor ( height ) {
         super( {
-            shapeName: 'triangle',
+            shape: 'triangle',
             height
         } );
 
@@ -76,14 +95,24 @@ class Triangle extends Shape {
 
 
     perimeter () {
-        return 2 * this.height + ( Math.sqrt( 2 ) ) * this.height;
+        return 2 * this.height + ( Math.sqrt( 2 ) * this.height );
+    }
+
+    describe () {
+        return {
+            shape: this.shape,
+            height: this.height,
+            width: this.width,
+            area: this.area(),
+            perimeter: this.perimeter()
+        }
     }
 }
 
 class Rectangle extends Shape {
     constructor ( width, height ) {
         super( {
-            shapeName: 'rectangle',
+            shape: 'rectangle',
             width,
             height
         } );
@@ -92,15 +121,29 @@ class Rectangle extends Shape {
         this.element.style.right = `${ Math.abs( Math.floor( Math.random() * ( canvas.offsetWidth - this.width ) ) ) }px`;
     }
 
+    area () {
+        return this.width * this.height;
+    }
+
     perimeter () {
         return 2 * ( this.width + this.height );
+    }
+
+    describe () {
+        return {
+            shape: this.shape,
+            height: this.height,
+            width: this.width,
+            area: this.area(),
+            perimeter: this.perimeter()
+        }
     }
 }
 
 class Square extends Shape {
     constructor ( sideLength ) {
         super( {
-            shapeName: 'square',
+            shape: 'square',
             width: sideLength,
             height: sideLength
         } );
@@ -109,8 +152,22 @@ class Square extends Shape {
         this.element.style.right = `${ Math.abs( Math.floor( Math.random() * ( canvas.offsetWidth - this.width ) ) ) }px`;
     }
 
+    area () {
+        return this.width ** 2;
+    }
+
     perimeter () {
         return 4 * this.width;
+    }
+
+    describe () {
+        return {
+            shape: this.shape,
+            height: this.height,
+            width: this.width,
+            area: this.area(),
+            perimeter: this.perimeter()
+        }
     }
 }
 
