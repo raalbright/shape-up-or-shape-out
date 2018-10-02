@@ -35,25 +35,24 @@ class Shape {
 
         this.element.addEventListener( 'dblclick', () => canvas.removeChild( this.element ) );
 
-        canvas.appendChild( this.element );
+        this.draw();
     }
 
-    describe () { }
-
-    area () { }
+    draw () {
+        this.element.style.top = `${ Math.abs( Math.floor( Math.random() * ( canvas.offsetHeight - this.height ) ) ) }px`;
+        this.element.style.right = `${ Math.abs( Math.floor( Math.random() * ( canvas.offsetWidth - this.width ) ) ) }px`;
+        canvas.appendChild( this.element );
+    }
 }
 
 class Circle extends Shape {
-    constructor ( radius ) {
+    constructor ( radius = 0 ) {
         super( {
             shape: 'circle',
             width: radius * 2,
             height: radius * 2
         } );
         this.radius = radius;
-
-        this.element.style.top = `${ Math.abs( Math.floor( Math.random() * ( canvas.offsetHeight - this.height ) ) ) }px`;
-        this.element.style.right = `${ Math.abs( Math.floor( Math.random() * ( canvas.offsetWidth - this.width ) ) ) }px`;
     }
 
     area () {
@@ -76,7 +75,7 @@ class Circle extends Shape {
 }
 
 class Triangle extends Shape {
-    constructor ( height ) {
+    constructor ( height = 0 ) {
         super( {
             shape: 'triangle',
             height
@@ -84,9 +83,6 @@ class Triangle extends Shape {
 
         this.element.style.borderTop = `${ height }px solid yellow`;
         this.element.style.borderRight = `${ height }px solid transparent`;
-
-        this.element.style.top = `${ Math.abs( Math.floor( Math.random() * ( canvas.offsetHeight - this.height ) ) ) }px`;
-        this.element.style.right = `${ Math.abs( Math.floor( Math.random() * ( canvas.offsetWidth - this.height ) ) ) }px`;
     }
 
     area () {
@@ -110,15 +106,13 @@ class Triangle extends Shape {
 }
 
 class Rectangle extends Shape {
-    constructor ( width, height ) {
+    constructor ( width = 0, height = 0 ) {
         super( {
             shape: 'rectangle',
             width,
             height
         } );
 
-        this.element.style.top = `${ Math.abs( Math.floor( Math.random() * ( canvas.offsetHeight - this.height ) ) ) }px`;
-        this.element.style.right = `${ Math.abs( Math.floor( Math.random() * ( canvas.offsetWidth - this.width ) ) ) }px`;
     }
 
     area () {
@@ -141,15 +135,12 @@ class Rectangle extends Shape {
 }
 
 class Square extends Shape {
-    constructor ( sideLength ) {
+    constructor ( sideLength = 0 ) {
         super( {
             shape: 'square',
             width: sideLength,
             height: sideLength
         } );
-
-        this.element.style.top = `${ Math.abs( Math.floor( Math.random() * ( canvas.offsetHeight - this.height ) ) ) }px`;
-        this.element.style.right = `${ Math.abs( Math.floor( Math.random() * ( canvas.offsetWidth - this.width ) ) ) }px`;
     }
 
     area () {
