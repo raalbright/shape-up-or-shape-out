@@ -22,7 +22,7 @@ class Shape {
 }
 
 class Circle extends Shape {
-    constructor ( radius = 0 ) {
+    constructor ( { radius = 0 } ) {
         super( {
             name: 'circle',
             width: radius * 2,
@@ -50,7 +50,7 @@ class Circle extends Shape {
 }
 
 class Triangle extends Shape {
-    constructor ( height = 0 ) {
+    constructor ( { height = 0 } ) {
         super( {
             name: 'triangle',
             height
@@ -80,7 +80,7 @@ class Triangle extends Shape {
 }
 
 class Rectangle extends Shape {
-    constructor ( width = 0, height = 0 ) {
+    constructor ( { width = 0, height = 0 } ) {
         super( {
             name: 'rectangle',
             width,
@@ -108,7 +108,7 @@ class Rectangle extends Shape {
 }
 
 class Square extends Shape {
-    constructor ( sideLength = 0 ) {
+    constructor ( { sideLength = 0 } ) {
         super( {
             name: 'square',
             width: sideLength,

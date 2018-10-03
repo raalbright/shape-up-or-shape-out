@@ -12,6 +12,10 @@ $( document ).ready( () => {
             shapeInfoModal.modal( 'show' );
         }
 
+        const hide = () => {
+            shapeInfoModal.modal( 'hide' );
+        }
+
         const changeTitle = ( title ) => {
             shapeInfoModal.find( '.modal-title' ).text( title );
         }
@@ -21,104 +25,56 @@ $( document ).ready( () => {
             shapeInfoModal.find( '.modal-body' ).html( t );
         }
 
-        const removeBtn = ( callback ) => {
-            shapeInfoModal.find( '#remove' ).click( () => {
-                callback();
-                shapeInfoModal.modal( 'hide' );
-            } );
-
-        }
+        const removeBtn = shapeInfoModal.find( '#remove' )
 
         return {
             show,
+            hide,
             removeBtn
         }
     } )();
 
-    const squareForm = $( '#add-square' );
-    const circleForm = $( '#add-circle' );
-    const rectangleForm = $( '#add-rectangle' );
-    const triangleForm = $( '#add-triangle' );
+    const makeShape = ( formData ) => {
+        let shape;
+        switch ( formData.name ) {
+            case 'square':
+                shape = new Square( formData );
+                break;
+            case 'circle':
+                shape = new Circle( formData );
+                break;
+            case 'rectangle':
+                shape = new Rectangle( formData );
+                break;
+            case 'triangle':
+                shape = new Triangle( formData );
+                break;
+            default:
+                break;
+        }
+        return shape;
+    }
 
-    squareForm.submit( ( e ) => {
+    $( '.add-shape' ).submit( ( e ) => {
         e.preventDefault();
-        const form = e.target;
-        const sideLength = parseInt( form.elements[ "sideLength" ].value );
-        const shape = new Square( sideLength );
+        const formData = $( e.target ).serializeArray().reduce( ( formData, { name, value } ) => {
+            formData[ name ] = value;
+            return formData;
+        }, {} );
+        const shape = makeShape( formData );
         shape.element.addEventListener( 'click', () => {
             const info = shape.describe();
             shapeInfoModal.show( {
                 title: shape.name,
                 info
             } );
+            shapeInfoModal.removeBtn.click( () => {
+                shape.element.remove();
+                shapeInfoModal.hide();
+            } )
         } );
-        shapeInfoModal.removeBtn( () => {
-            shape.element.remove();
-        } );
-        canvas.append( shape.element )
-        $( '#squareModal' ).modal( 'hide' );
-        form.reset();
-    } );
-
-    circleForm.submit( ( e ) => {
-        e.preventDefault();
-        const form = e.target;
-        const radius = parseInt( form.elements[ "radius" ].value );
-        const shape = new Circle( radius );
-        shape.element.addEventListener( 'click', () => {
-            const info = shape.describe();
-            shapeInfoModal.show( {
-                title: shape.name,
-                info
-            } );
-        } );
-        shapeInfoModal.removeBtn( () => {
-            shape.element.remove();
-        } );
-        canvas.append( shape.element )
-        $( '#circleModal' ).modal( 'hide' );
-        form.reset();
-    } );
-
-    rectangleForm.submit( ( e ) => {
-        e.preventDefault();
-        const form = e.target;
-        const width = parseInt( form.elements[ "width" ].value );
-        const height = parseInt( form.elements[ "height" ].value );
-        const shape = new Rectangle( width, height );
-        shape.element.addEventListener( 'click', () => {
-            const info = shape.describe();
-            shapeInfoModal.show( {
-                title: shape.name,
-                info
-            } );
-        } );
-        shapeInfoModal.removeBtn( () => {
-            shape.element.remove();
-        } );
-        canvas.append( shape.element )
-        $( '#rectangleModal' ).modal( 'hide' );
-        form.reset();
-    } );
-
-    triangleForm.submit( ( e ) => {
-        e.preventDefault();
-        const form = e.target;
-        const height = parseInt( form.elements[ "height" ].value );
-        const shape = new Triangle( height );
-        shape.element.addEventListener( 'click', () => {
-            const info = shape.describe();
-            shapeInfoModal.show( {
-                title: shape.name,
-                info
-            } );
-        } );
-        shapeInfoModal.removeBtn( () => {
-            shape.element.remove();
-        } );
-        canvas.append( shape.element )
-        $( '#triangleModal' ).modal( 'hide' );
-        form.reset();
+        canvas.append( shape.element );
+        $( `#${ formData.name }Modal` ).modal( 'hide' );
     } );
 
     $( '.modal' ).on( 'hidden.bs.modal', ( e ) => {

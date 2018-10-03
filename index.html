@@ -36,7 +36,6 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Modal body text goes here.</p>
                     </div>
                     <div class="modal-footer">
                         <button id="remove" type="button" class="btn btn-danger">Remove</button>
@@ -58,11 +57,12 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form id="add-square">
+                    <form id="add-square" class="add-shape">
                         <div class="modal-body">
                             <div class="form-group">
+                                <input type="hidden" name="name" value="square">
                                 <label for="sideLength">Side Length:</label>
-                                <input type="number" class="form-control" id="sideLength" placeholder="Enter Side Length">
+                                <input type="number" class="form-control" id="sideLength" name="sideLength" placeholder="Enter Side Length">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -83,11 +83,12 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form id="add-circle">
+                    <form id="add-circle" class="add-shape">
                         <div class="modal-body">
                             <div class="form-group">
+                                <input type="hidden" name="name" value="circle">
                                 <label for="radius">Radius:</label>
-                                <input type="number" class="form-control" id="radius" placeholder="Enter Radius">
+                                <input type="number" class="form-control" id="radius" name="radius" placeholder="Enter Radius">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -108,11 +109,12 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form id="add-triangle">
+                    <form id="add-triangle" class="add-shape">
                         <div class="modal-body">
                             <div class="form-group">
+                                <input type="hidden" name="name" value="triangle">
                                 <label for="height">Height:</label>
-                                <input type="number" class="form-control" id="height" placeholder="Enter Height">
+                                <input type="number" class="form-control" id="height" name="height" placeholder="Enter Height">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -133,13 +135,14 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form id="add-rectangle">
+                    <form id="add-rectangle" class="add-shape">
                         <div class="modal-body">
                             <div class="form-group">
+                                <input type="hidden" name="name" value="rectangle">
                                 <label for="height">Height:</label>
-                                <input type="number" class="form-control" id="height" placeholder="Enter height">
+                                <input type="number" class="form-control" id="height" name="height" placeholder="Enter height">
                                 <label for="Width">Width:</label>
-                                <input type="number" class="form-control" id="width" placeholder="Enter Width">
+                                <input type="number" class="form-control" id="width" name="width" placeholder="Enter Width">
                             </div>
                         </div>
                         <div class="modal-footer">
