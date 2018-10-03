@@ -1,201 +1,128 @@
-const canvas = document.querySelector( '#canvas' );
+$( document ).ready( () => {
+    $( '[data-toggle="tooltip"]' ).tooltip();
 
-const capitalize = ( str ) => {
-    return `${ str.substring( 0, 1 ).toUpperCase() }${ str.substring( 1 ) }`
-}
+    const canvas = document.querySelector( '#canvas' );
 
-const sidePanel = ( () => {
-    const sidePanel = document.querySelector( '#side-panel' );
+    const shapeInfoModal = ( () => {
+        const shapeInfoModal = $( '#shapeInfoModal' );
 
-    const changeInfo = ( d ) => {
-        const info = Object.entries( d ).map( ( [ key, value ] ) => `${ capitalize( key ) }: ${ value }` ).join( '\n' );
-        sidePanel.innerText = info;
-    }
-    return {
-        changeInfo
-    }
-} )();
-
-class Shape {
-    constructor ( { shape = 'shape', width = 0, height = 0 } ) {
-        this.shape = capitalize( shape );
-        this.width = width;
-        this.height = height;
-
-        this.element = document.createElement( 'div' );
-        this.element.classList.add( 'shape', shape );
-
-        this.element.style.width = `${ width }px`;
-        this.element.style.height = `${ height }px`;
-
-        this.element.addEventListener( 'click', () => {
-            const info = this.describe();
-            sidePanel.changeInfo( info );
-        } );
-
-        this.element.addEventListener( 'dblclick', () => canvas.removeChild( this.element ) );
-
-        this.draw();
-    }
-
-    draw () {
-        this.element.style.top = `${ Math.abs( Math.floor( Math.random() * ( canvas.offsetHeight - this.height ) ) ) }px`;
-        this.element.style.right = `${ Math.abs( Math.floor( Math.random() * ( canvas.offsetWidth - this.width ) ) ) }px`;
-        canvas.appendChild( this.element );
-    }
-}
-
-class Circle extends Shape {
-    constructor ( radius = 0 ) {
-        super( {
-            shape: 'circle',
-            width: radius * 2,
-            height: radius * 2
-        } );
-        this.radius = radius;
-    }
-
-    area () {
-        return Math.PI * ( this.radius ** 2 );
-    }
-
-    circumference () {
-        return 2 * ( Math.PI * this.radius );
-    }
-
-    describe () {
-        return {
-            shape: this.shape,
-            diameter: this.width,
-            radius: this.radius,
-            area: this.area(),
-            circumference: this.circumference()
+        const show = ( { title = '', info = {} } ) => {
+            changeTitle( title );
+            changeBody( info );
+            shapeInfoModal.modal( 'show' );
         }
-    }
-}
 
-class Triangle extends Shape {
-    constructor ( height = 0 ) {
-        super( {
-            shape: 'triangle',
-            height
-        } );
-
-        this.element.style.borderTop = `${ height }px solid yellow`;
-        this.element.style.borderRight = `${ height }px solid transparent`;
-    }
-
-    area () {
-        return 0.5 * this.height * this.height;
-    }
-
-
-    perimeter () {
-        return 2 * this.height + ( Math.sqrt( 2 ) * this.height );
-    }
-
-    describe () {
-        return {
-            shape: this.shape,
-            height: this.height,
-            width: this.width,
-            area: this.area(),
-            perimeter: this.perimeter()
+        const changeTitle = ( title ) => {
+            shapeInfoModal.find( '.modal-title' ).text( title );
         }
-    }
-}
 
-class Rectangle extends Shape {
-    constructor ( width = 0, height = 0 ) {
-        super( {
-            shape: 'rectangle',
-            width,
-            height
-        } );
-
-    }
-
-    area () {
-        return this.width * this.height;
-    }
-
-    perimeter () {
-        return 2 * ( this.width + this.height );
-    }
-
-    describe () {
-        return {
-            shape: this.shape,
-            height: this.height,
-            width: this.width,
-            area: this.area(),
-            perimeter: this.perimeter()
+        const changeBody = ( info ) => {
+            const t = Object.entries( info ).map( ( [ key, value ] ) => `<p>${ capitalize( key ) }: ${ value }</p>` ).join( '' );
+            shapeInfoModal.find( '.modal-body' ).html( t );
         }
-    }
-}
 
-class Square extends Shape {
-    constructor ( sideLength = 0 ) {
-        super( {
-            shape: 'square',
-            width: sideLength,
-            height: sideLength
-        } );
-    }
+        const removeBtn = ( callback ) => {
+            shapeInfoModal.find( '#remove' ).click( () => {
+                callback();
+                shapeInfoModal.modal( 'hide' );
+            } );
 
-    area () {
-        return this.width ** 2;
-    }
-
-    perimeter () {
-        return 4 * this.width;
-    }
-
-    describe () {
-        return {
-            shape: this.shape,
-            height: this.height,
-            width: this.width,
-            area: this.area(),
-            perimeter: this.perimeter()
         }
-    }
-}
 
-const squareForm = document.querySelector( '#add-square' );
-const circleForm = document.querySelector( '#add-circle' );
-const rectangleForm = document.querySelector( '#add-rectangle' );
-const triangleForm = document.querySelector( '#add-triangle' );
+        return {
+            show,
+            removeBtn
+        }
+    } )();
 
-squareForm.addEventListener( 'submit', ( e ) => {
-    e.preventDefault();
-    const form = e.target;
-    const sideLength = parseInt( form.elements[ "side-length" ].value );
-    new Square( sideLength );
-    form.reset();
-} );
+    const squareForm = $( '#add-square' );
+    const circleForm = $( '#add-circle' );
+    const rectangleForm = $( '#add-rectangle' );
+    const triangleForm = $( '#add-triangle' );
 
-circleForm.addEventListener( 'submit', ( e ) => {
-    e.preventDefault();
-    const form = e.target;
-    const radius = parseInt( form.elements[ "radius" ].value );
-    new Circle( radius );
-    form.reset();
-} );
+    squareForm.submit( ( e ) => {
+        e.preventDefault();
+        const form = e.target;
+        const sideLength = parseInt( form.elements[ "sideLength" ].value );
+        const shape = new Square( sideLength );
+        shape.element.addEventListener( 'click', () => {
+            const info = shape.describe();
+            shapeInfoModal.show( {
+                title: shape.name,
+                info
+            } );
+        } );
+        shapeInfoModal.removeBtn( () => {
+            shape.element.remove();
+        } );
+        canvas.append( shape.element )
+        $( '#squareModal' ).modal( 'hide' );
+        form.reset();
+    } );
 
-rectangleForm.addEventListener( 'submit', ( e ) => {
-    e.preventDefault();
-    const form = e.target;
-    const width = parseInt( form.elements[ "width" ].value );
-    const height = parseInt( form.elements[ "height" ].value );
-    new Rectangle( width, height );
-    form.reset();
-} );
+    circleForm.submit( ( e ) => {
+        e.preventDefault();
+        const form = e.target;
+        const radius = parseInt( form.elements[ "radius" ].value );
+        const shape = new Circle( radius );
+        shape.element.addEventListener( 'click', () => {
+            const info = shape.describe();
+            shapeInfoModal.show( {
+                title: shape.name,
+                info
+            } );
+        } );
+        shapeInfoModal.removeBtn( () => {
+            shape.element.remove();
+        } );
+        canvas.append( shape.element )
+        $( '#circleModal' ).modal( 'hide' );
+        form.reset();
+    } );
 
-triangleForm.addEventListener( 'submit', ( e ) => {
-    e.preventDefault();
-    const form = e.target;
-    const height = parseInt( form.elements[ "height" ].value );
-    new Triangle( height );
-    form.reset();
+    rectangleForm.submit( ( e ) => {
+        e.preventDefault();
+        const form = e.target;
+        const width = parseInt( form.elements[ "width" ].value );
+        const height = parseInt( form.elements[ "height" ].value );
+        const shape = new Rectangle( width, height );
+        shape.element.addEventListener( 'click', () => {
+            const info = shape.describe();
+            shapeInfoModal.show( {
+                title: shape.name,
+                info
+            } );
+        } );
+        shapeInfoModal.removeBtn( () => {
+            shape.element.remove();
+        } );
+        canvas.append( shape.element )
+        $( '#rectangleModal' ).modal( 'hide' );
+        form.reset();
+    } );
+
+    triangleForm.submit( ( e ) => {
+        e.preventDefault();
+        const form = e.target;
+        const height = parseInt( form.elements[ "height" ].value );
+        const shape = new Triangle( height );
+        shape.element.addEventListener( 'click', () => {
+            const info = shape.describe();
+            shapeInfoModal.show( {
+                title: shape.name,
+                info
+            } );
+        } );
+        shapeInfoModal.removeBtn( () => {
+            shape.element.remove();
+        } );
+        canvas.append( shape.element )
+        $( '#triangleModal' ).modal( 'hide' );
+        form.reset();
+    } );
+
+    $( '.modal' ).on( 'hidden.bs.modal', ( e ) => {
+        $( e.target ).find( 'form' ).trigger( "reset" );
+    } );
+
 } );
