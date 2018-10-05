@@ -25,7 +25,7 @@ $( document ).ready( () => {
             shapeInfoModal.find( '.modal-body' ).html( t );
         }
 
-        const removeBtn = shapeInfoModal.find( '#remove' )
+        const removeBtn = shapeInfoModal.find( '#remove' );
 
         return {
             show,
@@ -71,7 +71,7 @@ $( document ).ready( () => {
             shapeInfoModal.removeBtn.click( () => {
                 shape.element.remove();
                 shapeInfoModal.hide();
-            } )
+            } );
         } );
         canvas.append( shape.element );
         $( `#${ formData.name }Modal` ).modal( 'hide' );
