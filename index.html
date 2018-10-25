@@ -1,167 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Shape up or Shape out</title>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
-        <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
-            integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
-        <link rel="stylesheet" href="style.css">
-    </head>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Shape up or Shape out</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
+      integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+  </head>
 
-    <body>
-        <div class="btn-group" data-toggle="tooltip" data-placement="right" title="Add Shape">
-            <button class="btn bmd-btn-fab dropdown-toggle" type="button" id="ll1" data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false">
-                <i class="material-icons">add</i>
+  <body>
+    <div class="btn-group" data-toggle="tooltip" data-placement="right" title="Add Shape">
+      <button class="btn bmd-btn-fab dropdown-toggle" type="button" id="ll1" data-toggle="dropdown" aria-haspopup="true"
+        aria-expanded="false">
+        <i class="material-icons">add</i>
+      </button>
+      <div class="dropdown-menu dropdown-menu-left" aria-labelledby="ll1">
+        <input class="dropdown-item" type="button" value="Square" data-toggle="modal" data-target="#squareModal">
+        <input class="dropdown-item" type="button" value="Circle" data-toggle="modal" data-target="#circleModal">
+        <input class="dropdown-item" type="button" value="Triangle" data-toggle="modal" data-target="#triangleModal">
+        <input class="dropdown-item" type="button" value="Rectangle" data-toggle="modal" data-target="#rectangleModal">
+      </div>
+    </div>
+
+    <div id="canvas">
+    </div>
+
+    <div id="squareModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="squareModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add Square</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
             </button>
-            <div class="dropdown-menu dropdown-menu-left" aria-labelledby="ll1">
-                <input class="dropdown-item" type="button" value="Square" data-toggle="modal" data-target="#squareModal">
-                <input class="dropdown-item" type="button" value="Circle" data-toggle="modal" data-target="#circleModal">
-                <input class="dropdown-item" type="button" value="Triangle" data-toggle="modal" data-target="#triangleModal">
-                <input class="dropdown-item" type="button" value="Rectangle" data-toggle="modal" data-target="#rectangleModal">
+          </div>
+          <form id="add-square" class="add-shape">
+            <div class="modal-body">
+              <div class="form-group">
+                <input type="hidden" name="name" value="square">
+                <label for="sideLength">Side Length:</label>
+                <input type="number" class="form-control" id="sideLength" name="sideLength" placeholder="Enter Side Length">
+              </div>
             </div>
-        </div>
-
-        <div id="shapeInfoModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="shapeInfoModal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                    </div>
-                    <div class="modal-footer">
-                        <button id="remove" type="button" class="btn btn-danger">Remove</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
+            <div class="modal-footer">
+              <input type="submit" value="Add Square" class="btn btn-primary">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
+          </form>
         </div>
+      </div>
+    </div>
 
-        <div id="canvas">
-        </div>
-
-        <div id="squareModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="squareModal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Add Square</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form id="add-square" class="add-shape">
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <input type="hidden" name="name" value="square">
-                                <label for="sideLength">Side Length:</label>
-                                <input type="number" class="form-control" id="sideLength" name="sideLength" placeholder="Enter Side Length">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <input type="submit" value="Add Square" class="btn btn-primary">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                    </form>
-                </div>
+    <div id="circleModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="circleModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add Circle</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form id="add-circle" class="add-shape">
+            <div class="modal-body">
+              <div class="form-group">
+                <input type="hidden" name="name" value="circle">
+                <label for="radius">Radius:</label>
+                <input type="number" class="form-control" id="radius" name="radius" placeholder="Enter Radius">
+              </div>
             </div>
-        </div>
-
-        <div id="circleModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="circleModal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Add Circle</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form id="add-circle" class="add-shape">
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <input type="hidden" name="name" value="circle">
-                                <label for="radius">Radius:</label>
-                                <input type="number" class="form-control" id="radius" name="radius" placeholder="Enter Radius">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <input type="submit" value="Add Circle" class="btn btn-primary">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                    </form>
-                </div>
+            <div class="modal-footer">
+              <input type="submit" value="Add Circle" class="btn btn-primary">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
+          </form>
         </div>
+      </div>
+    </div>
 
-        <div id="triangleModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="triangleModal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Add Triangle</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form id="add-triangle" class="add-shape">
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <input type="hidden" name="name" value="triangle">
-                                <label for="height">Height:</label>
-                                <input type="number" class="form-control" id="height" name="height" placeholder="Enter Height">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <input type="submit" value="Add Triangle" class="btn btn-primary">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                    </form>
-                </div>
+    <div id="triangleModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="triangleModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add Triangle</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form id="add-triangle" class="add-shape">
+            <div class="modal-body">
+              <div class="form-group">
+                <input type="hidden" name="name" value="triangle">
+                <label for="height">Height:</label>
+                <input type="number" class="form-control" id="height" name="height" placeholder="Enter Height">
+              </div>
             </div>
-        </div>
-
-        <div id="rectangleModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="rectangleModal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Add Rectangle</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form id="add-rectangle" class="add-shape">
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <input type="hidden" name="name" value="rectangle">
-                                <label for="height">Height:</label>
-                                <input type="number" class="form-control" id="height" name="height" placeholder="Enter height">
-                                <label for="Width">Width:</label>
-                                <input type="number" class="form-control" id="width" name="width" placeholder="Enter Width">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <input type="submit" value="Add Rectangle" class="btn btn-primary">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                    </form>
-                </div>
+            <div class="modal-footer">
+              <input type="submit" value="Add Triangle" class="btn btn-primary">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
+          </form>
         </div>
+      </div>
+    </div>
 
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-            crossorigin="anonymous"></script>
-        <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
-            crossorigin="anonymous"></script>
-        <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
-            crossorigin="anonymous"></script>
-        <script src="shape.js"></script>
-        <script src="app.js"></script>
-    </body>
+    <div id="rectangleModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="rectangleModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add Rectangle</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form id="add-rectangle" class="add-shape">
+            <div class="modal-body">
+              <div class="form-group">
+                <input type="hidden" name="name" value="rectangle">
+                <label for="height">Height:</label>
+                <input type="number" class="form-control" id="height" name="height" placeholder="Enter height">
+                <label for="Width">Width:</label>
+                <input type="number" class="form-control" id="width" name="width" placeholder="Enter Width">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <input type="submit" value="Add Rectangle" class="btn btn-primary">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
+      crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
+      crossorigin="anonymous"></script>
+    <script src="shape.js"></script>
+    <script src="app.js"></script>
+  </body>
 
 </html>
